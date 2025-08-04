@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ucapan Selamat</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+    }
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      transition: transform 0.5s ease;
+    }
+    .container {
+      display: flex;
+      width: 200vw;
+      height: 100vh;
+      transition: transform 0.5s ease;
+    }
+    .content {
+      color: white;
+      text-align: center;
+      max-width: 80%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 30px;
+      border-radius: 20px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      background-color: #ffcb05;
+      color: black;
+      cursor: pointer;
+    }
+
+    .emoji {
+      display: inline-block;
+      font-size: 2rem;
+      animation: bounce 1s infinite alternate;
+    }
+
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to { transform: translateY(-10px); }
+    }
+
+    .spotify-player {
+      margin-bottom: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 15px;
+    }
+
+    .spotify-player .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+
+    .spotify-player button {
+      background: none;
+      color: white;
+      font-size: 1.5rem;
+      border: none;
+      cursor: pointer;
+    }
+
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: white;
+    }
+
+    .progress-container input[type="range"] {
+      flex: 1;
+      height: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="slider">
+    <!-- Slide 1 -->
+    <div class="slide" style="background-image: url('https://files.catbox.moe/el6a87.jpg');">
+      <!-- Pemutar Musik -->
+      <div class="spotify-player">
+        <div class="controls">
+          <button id="shuffle">🔀</button>
+          <button id="prev">⏮️</button>
+          <button id="playPause">▶️</button>
+          <button id="next">⏭️</button>
+          <button id="repeat">🔁</button>
+        </div>
+        <div class="progress-container">
+          <span id="currentTime">0:00</span>
+          <input type="range" id="progress" value="0" min="0" max="100">
+          <span id="duration">0:00</span>
+        </div>
+        <audio id="audio" src="https://files.catbox.moe/q1llwo.mp3"></audio>
+      </div>
+
+      <div class="content">
+        <h1>🎖️ Selamat Naya 🎖️</h1>
+        <p>
+          Selamat ya Nay kamu sudah jadi dewan Pramuka, semoga kemah yang kamu lakukan pada hari sabtu dan minggu memberikan pelajaran yang bermanfaat buat kamu, aamiin. Aku tau kamu pasti capek, lelah, badan sakit semua, semoga rasa capek, lelah, badan sakit semua dihilangkan dan kamu kembali sehat dan ceria lagi, Naya kan strong women.
+
+        <!-- Emoji -->
+        <div>
+          <span class="emoji">🎉</span>
+          <span class="emoji">🥳</span>
+          <span class="emoji">🔥</span>
+        </div>
+
+        <button onclick="nextSlide()">Selamat 🎈</button>
+      </div>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="slide" style="background-image: url('https://files.catbox.moe/el6a87.jpg');">
+      <div class="content">
+        <h2>Semangat Naya</h2>
+        <p>
+          Kamu keren nay kamu sekarang jadi orang penting, banyak yang kamu korbankan buat jadi Dewan Pramuka. Aku salut dan bangga sama kamu. Semoga ilmu yang kamu dapatkan bermanfaat bagi dirimu dan orang lain terutama adik-adik tingkatmu nanti. Sekali lagi selamat ya nay.
+        </p>
+         <!-- Emoji -->
+        <div>
+         <span class="emoji">🧭</span>
+        <span class="emoji">🏕️</span>
+        <span class="emoji">💪</span>
+        </div>
+        <button onclick="prevSlide()">Kembali</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script Navigasi Slide -->
+  <script>
+    const slider = document.getElementById("slider");
+    function nextSlide() {
+      slider.style.transform = "translateX(-100vw)";
+    }
+    function prevSlide() {
+      slider.style.transform = "translateX(0)";
+    }
+  </script>
+
+  <!-- Script Musik -->
+  <script>
+    const audio = document.getElementById("audio");
+    const playPause = document.getElementById("playPause");
+    const progress = document.getElementById("progress");
+    const currentTime = document.getElementById("currentTime");
+    const duration = document.getElementById("duration");
+
+    playPause.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        playPause.textContent = "⏸️";
+      } else {
+        audio.pause();
+        playPause.textContent = "▶️";
+      }
+    });
+
+    audio.addEventListener("timeupdate", () => {
+      progress.value = (audio.currentTime / audio.duration) * 100;
+      currentTime.textContent = formatTime(audio.currentTime);
+      duration.textContent = formatTime(audio.duration);
+    });
+
+    progress.addEventListener("input", () => {
+      audio.currentTime = (progress.value / 100) * audio.duration;
+    });
+
+    function formatTime(seconds) {
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${mins}:${secs}`;
+    }
+  </script>
+</body>
+</html>
